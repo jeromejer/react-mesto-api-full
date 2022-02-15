@@ -8,7 +8,7 @@
     "lint": "npx eslint .",
     "dev": "nodemon app.js",
     "start": "node app.js",
-    "mongo": "brew services start mongodb-community@4.4",
+    "mongo": "brew services start mongodb-community@4.4"
   },
   "repository": {
     "type": "git",
