@@ -1,0 +1,10 @@
+.header__block {
+    display: flex;
+    align-items: center;
+}
+
+@media screen and (max-width: 1023px) {
+.header__block {
+    margin-right: 8.4375%;
+}
+}

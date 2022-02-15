@@ -1,0 +1,23 @@
+.element__dlt {
+  border: none;
+  cursor: pointer;
+  background: none;
+  width: 18px;
+  height: 19.3px;
+  background-image: url('/src/images/delete.svg');
+  background-repeat: no-repeat;
+  background-position: center;
+  display: none;
+  transition: .2s;
+  position: absolute;
+  right: 15px;
+  top: 18px;
+}
+
+.element__dlt_active{
+  display: block;
+}
+
+.element__dlt:hover {
+  opacity: 0.6;
+}
