@@ -21,7 +21,7 @@ class Api {
 
     getCardsData() {
         return fetch(`${this._endpoint}/cards`, {
-            headers: this._headers
+            headers: this._headers,
         })
         .then(this._resStatus);
     }
@@ -76,9 +76,9 @@ class Api {
 
     changeLikeCardStatus(cardId, isLiked) {
         if (isLiked) {
-          return this.setLike(cardId) 
+            return this.deleteLike(cardId)
         } else {
-          return this.deleteLike(cardId)
+            return this.setLike(cardId)
         }
       }
 
@@ -96,10 +96,10 @@ class Api {
 }
 
 const api = new Api({
-    endpoint: 'https://mesto.nomoreparties.co/v1/cohort-29',
+    endpoint: 'https://api.jeromejer.nomoredomains.xyz',
     headers: {
-      authorization: '78fb05fc-0800-40e0-9053-b1d17c19d9a5',
-      'Content-type': 'application/json'
+        'authorization': 'Bearer ' + localStorage.getItem('jwt'),
+        'Content-type': 'application/json'
     }
   })
 

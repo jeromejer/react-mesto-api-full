@@ -28,8 +28,8 @@ function Main(props) {
             </section>
             <section className="elements">
                 {cards.map((card) => {
-                    return (
-                        <Card 
+                    
+                       return ( <Card 
                             name={card.name} 
                             link={card.link} 
                             likes={card.likes} 
@@ -38,8 +38,8 @@ function Main(props) {
                             card={card} 
                             onCardLike={onCardLike} 
                             onCardDelete={onCardDelete}/>
-                    )
-                })}
+                    
+                )})}
             </section>
 
         </main>

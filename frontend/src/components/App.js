@@ -42,7 +42,7 @@ function App() {
       .then((data) => {
         //если получили токен и авторизация прошла успешно
         //то открывается окно подтверждения и переадресовывает на главную страницу
-
+        console.log(data)
         if (data.token) {
           handleInfoTooltipOpen({
             icon: iconAppruve,
@@ -110,8 +110,8 @@ function App() {
       auth
         .checkToken(jwt)
         .then((data) => {
-          if (data.data) {
-            setEmail(data.data.email);
+          if (data && data.email) {
+            setEmail(data.email);
             setLoggedIn(true);
             nav("/");
           }
@@ -149,10 +149,9 @@ function App() {
   }, [loggedIn]);
 
   function handleCardLike(card) {
-    const isLiked = card.likes.some((i) => i._id === currentUser._id);
-
+    const isLiked = card.likes.indexOf(currentUser._id) > -1;
     api
-      .changeLikeCardStatus(card._id, !isLiked)
+      .changeLikeCardStatus(card._id, isLiked)
       .then((newCard) => {
         setCards((state) =>
           state.map((c) => (c._id === card._id ? newCard : c))

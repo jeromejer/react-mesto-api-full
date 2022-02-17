@@ -5,12 +5,12 @@ function Card(props) {
 
     const currentUser = React.useContext(CurrentUserContext);
 
-   const isOwn = props.card.owner._id === currentUser._id;
+   const isOwn = props.card.owner === currentUser._id;
     const cardDeleteButtonClassName = (
       `element__dlt ${isOwn ? 'element__dlt_active' : ''}`
      ); 
 
-      const isLiked = props.card.likes.some(i => i._id === currentUser._id);
+      const isLiked = props.card.likes.indexOf(currentUser._id) > -1;
 
       // Создаём переменную, которую после зададим в `className` для кнопки лайка
       const cardLikeButtonClassName = (
