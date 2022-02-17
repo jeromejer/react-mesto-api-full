@@ -4,6 +4,7 @@ const NotFoundError = require('../errors/not-found-error');
 const ValidationError = require('../errors/bad-request-error');
 const ConflictError = require('../errors/conflict-error');
 
+
 module.exports.getUsers = (req, res, next) => {
   User.find({})
     .then((user) => res.send({ data: user }))
@@ -12,7 +13,7 @@ module.exports.getUsers = (req, res, next) => {
 
 module.exports.getUser = (req, res, next) => {
   const owner = req.user._id;
-  User.findOne(owner)
+  User.findById(owner)
     .then((user) => {
       if (!user) {
         throw new NotFoundError('Такого пользователя не существует');
@@ -43,6 +44,7 @@ module.exports.getUsersId = (req, res, next) => {
 };
 
 module.exports.createUsers = (req, res, next) => {
+  const {password, email} = req.body;
   bcrypt.hash(req.body.password, 10)
     .then((hash) => User.create({
       email: req.body.email,

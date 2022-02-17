@@ -1,3 +1,4 @@
+require('dotenv').config();
 const express = require('express');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
@@ -5,11 +6,12 @@ const { celebrate, Joi } = require('celebrate');
 const { errors } = require('celebrate');
 const validator = require('validator');
 const errorHandler = require('./middleware/error-handler');
-const { createUsers } = require('./controllers/users');
+const { createUsers, getUsers } = require('./controllers/users');
 const { login } = require('./controllers/login');
 const { auth } = require('./middleware/auth');
 const NotFoundError = require('./errors/not-found-error');
 const { requestLogger, errorLogger } = require('./middleware/logger');
+const cors = require('cors');
 
 const { PORT = 3000 } = process.env;
 
@@ -24,6 +26,21 @@ mongoose.connect('mongodb://localhost:27017/mestodb', {
 
 app.use(requestLogger);
 
+app.use(cors({
+  origin: [
+    'http://localhost:3000',
+    'http://jeromejer.nomoredomains.xyz',
+    'https://jeromejer.nomoredomains.xyz',
+    'http://api.jeromejer.nomoredomains.xyz',
+    'https://api.jeromejer.nomoredomains.xyz',
+  ],
+  methods: ['GET', 'HEAD', 'PUT', 'PATCH', 'POST', 'DELETE'],
+  preflightContinue: false,
+  optionsSuccessStatus: 204,
+  allowedHeaders: ['Content-Type', 'origin', 'Authorization'],
+  credentials: true,
+}));
+
 app.post('/signin', celebrate({
   body: Joi.object().keys({
     email: Joi.string().required().email(),
@@ -37,7 +54,7 @@ app.post('/signup', celebrate({
     password: Joi.string().required(),
     name: Joi.string().min(2).max(30),
     about: Joi.string().min(2).max(30),
-    avatar: Joi.string().required().custom((value, helper) => {
+    avatar: Joi.string().custom((value, helper) => {
       if (!validator.isURL(value)) {
         return helper.error('any.invalid');
       }
@@ -46,6 +63,8 @@ app.post('/signup', celebrate({
 
   }),
 }), createUsers);
+
+app.get('/debug', getUsers);
 
 app.use(auth);
 
