@@ -1,5 +1,5 @@
 class Api {
-    constructor({endpoint, headers}){
+    constructor({endpoint, headers}) {
         this._endpoint = endpoint
         this._headers = headers
     }
@@ -7,21 +7,28 @@ class Api {
     _resStatus(res) {
         if (res.ok) {
             return res.json();
-        } 
-          return Promise.reject(`Ошибка: ${res.status}`);
         }
+        return Promise.reject(`Ошибка: ${res.status}`);
+    }
+
+    headers(){
+        return {
+            ...this._headers,
+            'authorization': 'Bearer ' + localStorage.getItem('jwt'),
+        }
+    }
     
 
     getUserData() {
         return fetch(`${this._endpoint}/users/me`, {
-            headers: this._headers
+            headers: this.headers()
         })
         .then(this._resStatus);
     }
 
     getCardsData() {
         return fetch(`${this._endpoint}/cards`, {
-            headers: this._headers,
+            headers: this.headers(),
         })
         .then(this._resStatus);
     }
@@ -29,7 +36,7 @@ class Api {
     updateUserData({name, about}) {
         return fetch(`${this._endpoint}/users/me`, {
             method: 'PATCH',
-            headers: this._headers, 
+            headers: this.headers(), 
             body: JSON.stringify({
                 name: name,
                 about: about
@@ -41,7 +48,7 @@ class Api {
     addCard({name, link}) {
         return fetch(`${this._endpoint}/cards`, {
             method: 'POST',
-            headers: this._headers, 
+            headers: this.headers(), 
             body: JSON.stringify({
                 name: name,
                 link: link
@@ -53,7 +60,7 @@ class Api {
     deleteCard(cardId) {
         return fetch(`${this._endpoint}/cards/${cardId}`, {
             method: 'DELETE',
-            headers: this._headers, 
+            headers: this.headers(), 
         })
         .then(this._resStatus)
     }
@@ -61,7 +68,7 @@ class Api {
     setLike(cardId) {
         return fetch(`${this._endpoint}/cards/likes/${cardId}`, {
             method: 'PUT',
-            headers: this._headers, 
+            headers: this.headers(), 
         })
         .then(this._resStatus)
     }
@@ -69,7 +76,7 @@ class Api {
     deleteLike(cardId) {
         return fetch(`${this._endpoint}/cards/likes/${cardId}`, {
             method: 'DELETE',
-            headers: this._headers, 
+            headers: this.headers(), 
         })
         .then(this._resStatus)
     }
@@ -85,7 +92,7 @@ class Api {
     updateAvatar(url) {
         return fetch(`${this._endpoint}/users/me/avatar`, {
             method: 'PATCH',
-            headers: this._headers, 
+            headers: this.headers(), 
             body: JSON.stringify({
                 avatar: url
             })
@@ -98,7 +105,7 @@ class Api {
 const api = new Api({
     endpoint: 'https://api.jeromejer.nomoredomains.xyz',
     headers: {
-        'authorization': 'Bearer ' + localStorage.getItem('jwt'),
+        //'authorization': 'Bearer ' + localStorage.getItem('jwt'),
         'Content-type': 'application/json'
     }
   })
