@@ -70,8 +70,6 @@ app.post('/signup', celebrate({
   }),
 }), createUsers);
 
-app.get('/debug', getUsers);
-
 app.use(auth);
 
 app.use('/users', require('./routes/users'));
