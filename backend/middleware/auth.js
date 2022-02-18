@@ -5,7 +5,7 @@ const { NODE_ENV, JWT_SECRET } = process.env;
 
 module.exports.auth = (req, res, next) => {
   const { authorization } = req.headers;
-  
+
   if (!authorization || !authorization.startsWith('Bearer ')) {
     return next(new BadAuthorizedError('Ошибка авторизации'));
   }
@@ -21,5 +21,5 @@ module.exports.auth = (req, res, next) => {
 
   req.user = payload;
 
-  next();
+  return next();
 };

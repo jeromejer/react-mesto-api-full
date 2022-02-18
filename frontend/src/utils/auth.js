@@ -8,7 +8,7 @@ export const signup = ({ email, password }) => {
       { 'Accept': 'application/json', 'Content-Type': 'application/json' },
     body: JSON.stringify({ email, password })
   })
-    .then(res => res.status === 201 ? res.json() : res);
+    .then(res => res.status === 200 ? res.json() : res);
 };
 
 export const signin = ({ email, password }) => {

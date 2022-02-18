@@ -9,7 +9,6 @@ const {
   likesCards,
   diselikesCards,
 } = require('../controllers/cards');
-const { request } = require('express');
 
 router.get('/', getCards);
 

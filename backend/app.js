@@ -5,13 +5,13 @@ const bodyParser = require('body-parser');
 const { celebrate, Joi } = require('celebrate');
 const { errors } = require('celebrate');
 const validator = require('validator');
+const { cors } = require('cors');
 const errorHandler = require('./middleware/error-handler');
 const { createUsers, getUsers } = require('./controllers/users');
 const { login } = require('./controllers/login');
 const { auth } = require('./middleware/auth');
 const NotFoundError = require('./errors/not-found-error');
 const { requestLogger, errorLogger } = require('./middleware/logger');
-const cors = require('cors');
 
 const { PORT = 3000 } = process.env;
 
@@ -45,7 +45,7 @@ app.get('/crash-test', () => {
   setTimeout(() => {
     throw new Error('Сервер сейчас упадёт');
   }, 0);
-}); 
+});
 
 app.post('/signin', celebrate({
   body: Joi.object().keys({

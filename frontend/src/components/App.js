@@ -72,7 +72,7 @@ function App() {
     return auth
       .signup({ password, email })
       .then((data) => {
-        if (data.data._id) {
+        if (data.data.email) {
           handleInfoTooltipOpen({
             icon: iconAppruve,
             text: "Вы успешно зарегистрировались!",
